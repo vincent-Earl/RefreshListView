@@ -1,6 +1,7 @@
 package com.refreshlistview;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.RotateAnimation;
@@ -32,7 +33,7 @@ public class HeadView extends LinearLayout {
 	public static final int READY = 1;
 	public static final int REFRESH =2;
 	private LinearLayout container;
-	private int status = NORMAL;
+	private int status = NORMAL; //存储上一个状态
 	public HeadView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -44,13 +45,13 @@ public class HeadView extends LinearLayout {
 		container = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.layout_head, null);
 		LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,0);
 		
-		upAnimation = new RotateAnimation(0, 180, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		upAnimation.setDuration(1000);
-		upAnimation.setFillAfter(false);
+		upAnimation = new RotateAnimation(0.0f, -180.0f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+		upAnimation.setDuration(100);
+		upAnimation.setFillAfter(true);
 		
-		downAnimation = new RotateAnimation(-180, 0, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
-		downAnimation.setDuration(1000);
-		downAnimation.setFillAfter(false);
+		downAnimation = new RotateAnimation(-180.0f, 0.0f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
+		downAnimation.setDuration(100);
+		downAnimation.setFillAfter(true);
 		
 		statusText = (TextView) container.findViewById(R.id.pull_to_refresh);
 		refreshTime = (TextView) container.findViewById(R.id.refresh_time);
@@ -58,6 +59,7 @@ public class HeadView extends LinearLayout {
 		progress = (ProgressBar)container.findViewById(R.id.head_progress);
 		
 		addView(container,params);
+		setGravity(Gravity.BOTTOM);
 	}
 	
 	public void changeView(int state){
@@ -77,6 +79,7 @@ public class HeadView extends LinearLayout {
 		}else{
 			refreshView();
 		}
+		status = state;
 	}
 	
 	public int getVisiableHeight(){
@@ -95,7 +98,8 @@ public class HeadView extends LinearLayout {
 		// TODO Auto-generated method stub
 		statusText.setText("正在加载");
 		refreshTime.setText("刚刚");
-		image.setVisibility(View.GONE);
+		image.clearAnimation();
+		image.setVisibility(View.INVISIBLE);
 		progress.setVisibility(View.VISIBLE);
 	}
 
@@ -103,7 +107,6 @@ public class HeadView extends LinearLayout {
 		// TODO Auto-generated method stub
 		statusText.setText("松开刷新数据");
 		refreshTime.setText("刚刚");
-		image.setAnimation(upAnimation);
 	}
 
 	private void normalView() {

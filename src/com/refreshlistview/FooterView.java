@@ -27,6 +27,7 @@ public class FooterView extends LinearLayout {
 	private static final int REFRESH = 2;
 	private TextView textView;
 	private ProgressBar progress;
+	private LinearLayout container;
 	public FooterView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
@@ -35,12 +36,12 @@ public class FooterView extends LinearLayout {
 	
 	private void initView(Context context) {
 		// TODO Auto-generated method stub
-		View view = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.layout_footer, null);
+		container = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.layout_footer, null);
 		LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT);
-		view.setLayoutParams(params);
-		textView = (TextView)view.findViewById(R.id.load_more);
-		progress = (ProgressBar) view.findViewById(R.id.footer_progress);
-		addView(view);
+		container.setLayoutParams(params);
+		textView = (TextView)container.findViewById(R.id.load_more);
+		progress = (ProgressBar) container.findViewById(R.id.footer_progress);
+		addView(container);
 	}
 	
 	public void changeView(int state){
