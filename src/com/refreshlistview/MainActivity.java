@@ -44,6 +44,7 @@ public class MainActivity extends Activity implements IRefreshListViewListener{
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
 		handler.postDelayed(new Runnable() {
 			
 			@Override
