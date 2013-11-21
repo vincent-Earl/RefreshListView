@@ -25,6 +25,8 @@ public class MainActivity extends Activity implements IRefreshListViewListener{
 		refreshListView = (RefreshListView)findViewById(R.id.listView);
 		mAdapter = new ArrayAdapter<String>(this, R.layout.listitem_test, dataList);
 		refreshListView.setAdapter(mAdapter);
+		refreshListView.setRefreshable(true);
+		refreshListView.setLoadable(true);
 		refreshListView.setRefreshListener(this);
 		handler = new Handler();
 	}
@@ -37,25 +39,27 @@ public class MainActivity extends Activity implements IRefreshListViewListener{
 	@Override
 	public void refresh()  {
 		// TODO Auto-generated method stub
-//		try {
-//			Thread.sleep(5*1000);
-//			refreshListView.stopRefresh();
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		handler.postDelayed(new Runnable() {
 			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				refreshListView.stopRefresh();
-				mAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.listitem_test, dataList);
-				refreshListView.setAdapter(mAdapter);
 			}
 		}, 2000);
 		
+	}
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		handler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				refreshListView.stopLoad();
+			}
+		}, 2000);
 	}
 
 }
